@@ -11,16 +11,32 @@ namespace Pinetime {
     public:
       Timer(void* timerData, TimerCallbackFunction_t timerCallbackFunction);
 
-      void StartTimer(std::chrono::milliseconds duration);
+      void Start(const std::chrono::milliseconds duration);
 
-      void StopTimer();
+      void Stop();
+
+      void Pause();
+
+      void Resume();
+
+      void Ring();
 
       std::chrono::milliseconds GetTimeRemaining();
 
-      bool IsRunning();
+      typedef enum TimerState { Running, Stopped, Paused, Ringing } TimerState;
+
+      TimerState GetState();
 
     private:
       TimerHandle_t timer;
+
+      std::chrono::milliseconds pausedAtTimer;
+
+      TimerState state;
+
+      bool IsRunning();
+      void TimerStart(const std::chrono::milliseconds duration);
+      void TimerStop();
     };
   }
 }

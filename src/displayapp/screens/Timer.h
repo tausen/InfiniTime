@@ -18,16 +18,25 @@ namespace Pinetime::Applications {
       Timer(Controllers::Timer& timerController, Controllers::MotorController& motorController);
       ~Timer() override;
       void Refresh() override;
+      void Stop();
       void Reset();
+      void SetRinging();
       void ToggleRunning();
       void ButtonPressed();
       void MaskReset();
-      void SetTimerRinging();
+      std::chrono::seconds GetCounters();
 
     private:
-      void SetTimerRunning();
-      void SetTimerStopped();
+      void SetInterfaceRinging();
+      void SetInterfaceRunning();
+      void SetInterfacePaused();
+      void SetInterfaceStopped();
+      void HandleHold();
       void UpdateMask();
+      void HandleLongPress();
+      void SetCounters(const std::chrono::milliseconds& duration);
+      void SetCounters(const std::chrono::seconds& duration);
+      void SetButtonText(const char* text);
       Pinetime::Controllers::Timer& timer;
       Pinetime::Controllers::MotorController& motorController;
 
@@ -44,7 +53,6 @@ namespace Pinetime::Applications {
       Widgets::Counter secondCounter = Widgets::Counter(0, 59, jetbrains_mono_76);
 
       bool buttonPressing = false;
-      bool isRinging = false;
       lv_coord_t maskPosition = 0;
       TickType_t pressTime = 0;
       TickType_t ringTime = 0;

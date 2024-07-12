@@ -271,7 +271,7 @@ void DisplayApp::Refresh() {
         if (currentApp == Apps::Timer) {
           lv_disp_trig_activity(nullptr);
           auto* timer = static_cast<Screens::Timer*>(currentScreen.get());
-          timer->SetTimerRinging();
+          timer->SetRinging();
         }
         motorController.StartRinging();
         break;
