@@ -17,7 +17,7 @@ std::chrono::milliseconds Timer::GetTimeRemaining() {
   if (IsRunning())
     remainingTime = xTimerGetExpiryTime(timer) - xTaskGetTickCount();
   else
-    remainingTime = xTaskGetTickCount() - xTimerGetExpiryTime(timer);
+    remainingTime = xTaskGetTickCount() - xTimerGetExpiryTime(timer) + configTICK_RATE_HZ;
 
   return std::chrono::milliseconds(remainingTime * 1000 / configTICK_RATE_HZ);
 }
